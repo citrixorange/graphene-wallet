@@ -1,6 +1,8 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const webpack = require('webpack');
+const WasmPackPlugin = require("@wasm-tool/wasm-pack-plugin");
 
 module.exports = {
     entry: './src/index.js',
@@ -9,15 +11,15 @@ module.exports = {
         filename: 'bundle.js',
     },
     module: {
-    rules: [
-        {
-            test: /\.js$/,
-            exclude: /node_modules/,
-            use: {
-                loader: 'babel-loader',
-            },
-        },
-    ],
+        rules: [
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: 'babel-loader',
+                },
+            }
+        ],
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -29,5 +31,11 @@ module.exports = {
               { from: 'images', to: 'images' },
             ],
         }),
+        new WasmPackPlugin({
+            crateDirectory: path.resolve(__dirname, "./wasm-hello-world")
+        }),
     ],
+    experiments: {
+        asyncWebAssembly: true,
+    },
 };

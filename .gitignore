@@ -1,2 +1,6 @@
 /build
 /node_modules
+/pkg
+/wasm-hello-world/pkg
+/wasm-hello-world/target
+/wasm-hello-world/Cargo.lock
